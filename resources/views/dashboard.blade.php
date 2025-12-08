@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+    </script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container m-5">
+        <h2 class="text-center">Admin Dashboard</h2>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+
+        <table class="table table-bordered">
+            <thead>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>User_Type</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                @foreach($users as $user)
+                <tr id="user-row-{{$user->id}}">
+                    <td>{{$user->id}}</td>
+                    <td>{{$user->name}}</td>
+                    <td>{{$user->email}}</td>
+                    <td>{{$user->user_type}}</td>
+                    <td>
+                        <a href="{{route('users.edit' , $user->id)}}" class="btn btn-warning">Update</a>
+                        <form class="deleteForm" data-id="{{$user->id}}" style="display:inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" class="btn btn-danger deleteBtn"
+                                data-id="{{$user->id}}">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+$(document).on('click', '.deleteBtn', function(e) {
+    e.preventDefault();
+
+    let id = $(this).data('id');
+
+    // 🔹 Step 1: Show confirmation dialog
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "This action cannot be undone!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            // 🔹 Step 2: Show loading alert
+            Swal.fire({
+                title: 'Deleting...',
+                text: 'Please wait a moment.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // 🔹 Step 3: AJAX delete request
+            $.ajax({
+                url: '/users/' + id,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    _method: 'DELETE'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Remove the row from the table
+                        $('#user-row-' + id).remove();
+
+                        // 🔹 Step 4: Show success message
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'Your data has been deleted successfully.',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Delete Failed!',
+                            text: 'Unable to delete the record.'
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Something went wrong while deleting.'
+                    });
+                }
+            });
+        }
+    });
+});
+</script>
