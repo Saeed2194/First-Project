@@ -37,6 +37,7 @@ Route::post('/login', [UserController::class, 'postLogin'])->name('postLogin');
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\RepairJobController;
+use App\Http\Controllers\ReportController;
 
 Route::middleware(['auth', 'PreventBack'])->group(function () {
     
@@ -44,6 +45,10 @@ Route::middleware(['auth', 'PreventBack'])->group(function () {
     
     Route::get('repair/create', [RepairJobController::class, 'create'])->name('repair.create');
     Route::post('repair/store', [RepairJobController::class, 'store'])->name('repair.store');
+
+    Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+    Route::get('/report/search', [ReportController::class, 'search'])->name('report.search');
+
     
     Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 });

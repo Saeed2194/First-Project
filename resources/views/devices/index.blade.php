@@ -19,6 +19,7 @@
 
         <a href="{{ route('devices.create') }}" class="btn btn-primary mb-3">Add Device</a>
         <a href="{{ route('repair.create') }}" class="btn btn-primary mb-3">Add Repair Jobs</a>
+        <a href="{{ route('report.index') }}" class="btn btn-primary mb-3">Search Results</a>
 
         <table class="table table-bordered table-striped">
             <tr>

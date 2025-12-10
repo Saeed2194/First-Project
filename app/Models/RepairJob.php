@@ -16,4 +16,9 @@ class RepairJob extends Model
     ];
 
     public $timestamps = false;
+
+    public function device()
+    {
+        return $this->belongsTo(Device::class, 'device_id');
+    }
 }
