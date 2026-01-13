@@ -60,6 +60,9 @@ class DeviceController extends Controller
             'model' => 'required|string',
         ]);
 
+        $device->brand = $request->brand;
+        $device->model = $request->model;
+
         $device->save();
         return redirect()->route('devices.index');
     }

@@ -86,8 +86,11 @@
                     <div class="col-sm-5">
                         <button type="submit" class="btn btn-primary">Submit Now</button>
                         <a href="{{ route('devices.index') }}" class="btn btn-secondary">Back</a>
+
                     </div>
                 </div>
+
+
         </form>
     </div>
 </body>

@@ -9,9 +9,15 @@ use App\Models\Device;
 
 class RepairJobController extends Controller
 {
+    public function index()
+    {
+        $repairs = RepairJob::all();
+        return view('repairs.index', compact('repairs'));
+    }
+
     public function create(Request $request) {
         $devices = Device::all()->toArray();
-        return view('repair_form', ["devices" => $devices, "statusArray" => $this->statusArray]);
+        return view('repairs.create', ["devices" => $devices, "statusArray" => $this->statusArray]);
     }
     
     public function store(Request $request){
@@ -41,4 +47,34 @@ class RepairJobController extends Controller
         return redirect()->route('devices.index');
         
     }
+
+    public function edit(string $id)
+    {
+        $repair = RepairJob::with('customer')->findOrFail($id);
+        // $repair = RepairJob::findorFail($id);
+        $devices = Device::all();
+        
+        $statusArray = [
+        'pending' => 'Pending',
+        'in_progress' => 'In Progress',
+        'completed' => 'Completed',
+        ];
+    
+        return view('repairs.edit' , compact('repair', 'devices', 'statusArray'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $repair = RepairJob::findOrFail($id);    
+
+        $repair->update([
+            'final_cost' => $request->final_cost,
+            'status' => $request->status,
+            'issue_description' => $request->issue_description,
+            'note' => $request->note,
+        ]);
+
+        return redirect()->route('repair.index')->with('success', 'Repair updated successfully');
+    }
+
 }

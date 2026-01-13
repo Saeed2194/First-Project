@@ -23,15 +23,16 @@
 
             <div class="mb-3">
                 <label>Brand</label>
-                <input type="text" name="brand" value="{{ $device->brand }}" class="form-control" required>
+                <input type="text" name="brand" value="{{ $device->brand }}" class="form-control">
             </div>
 
-            <div class="mb-3">
+            <div class=" mb-3">
                 <label>Model</label>
-                <input type="text" name="model" value="{{ $device->model }}" class="form-control" required>
+                <input type="text" name="model" value="{{ $device->model }}" class="form-control">
             </div>
 
-            <button class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-warning">Update</button>
+            <a href="{{ route('devices.index') }}" class="btn btn-secondary">Back</a>
         </form>
     </div>
 

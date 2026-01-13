@@ -43,8 +43,11 @@ Route::middleware(['auth', 'PreventBack'])->group(function () {
     
     Route::resource('devices', DeviceController::class);
     
+    Route::get('repair', [RepairJobController::class, 'index'])->name('repair.index');
     Route::get('repair/create', [RepairJobController::class, 'create'])->name('repair.create');
     Route::post('repair/store', [RepairJobController::class, 'store'])->name('repair.store');
+    Route::get('/repair/{id}/edit' , [RepairJobController::class , 'edit'])->name('repairs.edit');
+    Route::put('/repair/{id}' , [RepairJobController::class , 'update'])->name('repairs.update');
 
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::get('/report/search', [ReportController::class, 'search'])->name('report.search');

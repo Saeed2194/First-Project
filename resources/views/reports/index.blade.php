@@ -46,6 +46,7 @@
                     <th>Model Number</th>
                     <th>Final Cost</th>
                     <th>Received Date</th>
+
                 </tr>
             </thead>
 
@@ -57,6 +58,7 @@
                     <td>{{ $report->device->model ?? 'N/A' }}</td>
                     <td>{{ number_format($report->final_cost) }}</td>
                     <td>{{ $report->received_date }}</td>
+
                 </tr>
                 @endforeach
             </tbody>

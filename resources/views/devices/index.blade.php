@@ -18,11 +18,12 @@
         <a href="/logout" class="btn btn-danger mb-3">Logout</a>
 
         <a href="{{ route('devices.create') }}" class="btn btn-primary mb-3">Add Device</a>
-        <a href="{{ route('repair.create') }}" class="btn btn-primary mb-3">Add Repair Jobs</a>
+        <a href="{{ route('repair.index') }}" class="btn btn-primary mb-3">Show Repair Jobs</a>
         <a href="{{ route('report.index') }}" class="btn btn-primary mb-3">Search Results</a>
 
         <table class="table table-bordered table-striped">
             <tr>
+                <th>S.No</th>
                 <th>ID</th>
                 <th>Brand</th>
                 <th>Model</th>
@@ -31,6 +32,7 @@
 
             @foreach($devices as $device)
             <tr id="device-row-{{$device->id}}">
+                <td>{{ $loop->iteration }}</td>
                 <td>{{ $device->id }}</td>
                 <td>{{ $device->brand }}</td>
                 <td>{{ $device->model }}</td>

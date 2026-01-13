@@ -18,4 +18,9 @@ class Customer extends Model
 
     public $timestamps = false;
 
+    public function repairJobs()
+    {
+        return $this->hasMany(RepairJob::class);
+    }
+
 }
